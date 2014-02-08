@@ -1029,7 +1029,7 @@ run_package_manager() {
 					run_pkgmanager_cmd -S --asdeps "$@"
 					;;
 			  opkg)
-					run_pkg_manager_cmd install "$@"
+					run_pkgmanager_cmd install "$@"
 					;;
 				apt-get)
 					error "$(gettext "apt-get install not implemented")"
@@ -1045,7 +1045,7 @@ run_package_manager() {
 					run_pkgmanager_cmd -Rn "$@"
 					;;
 				opkg)
-					run_pkg_manager_cmd --autoremove remove "$@"
+					run_pkgmanager_cmd --autoremove remove "$@"
 					;;
 				apt-get)
 					error "$(gettext "apt-get remove not implemented")"
