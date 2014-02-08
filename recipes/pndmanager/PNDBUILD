@@ -1,0 +1,56 @@
+# Maintainer: Jari Vetoniemi <mailRoxas@gmail.com>
+
+pkgname=pndmanager
+pkgver=1.0.0
+pkgrel=1
+pkgtitle="PNDManager"
+pkgdesc="Package manager for PND repositories"
+license=('CCPL:sa')
+url="https://github.com/bzar/panorama"
+depends=('qt4-dev' 'pandora-libpnd')
+source=('git+git://github.com/bzar/panorama.git')
+
+pndexec=('run.sh')
+pndicon=('icon.png')
+
+prepare() {
+  cd panorama
+  git submodule update --init --recursive
+}
+
+build() {
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBPNDMAN_BUILD_STATIC=ON panorama
+  make
+}
+
+pnd_build() {
+  cmake -DCMAKE_INSTALL_PREFIX=/ -DLIBPNDMAN_BUILD_STATIC=ON -DPANDORA=ON panorama
+  make
+}
+
+package() {
+  make DESTDIR="$pkgdir" install
+
+  # cleanup useless interface files
+  find "$pkgdir/interfaces/" -mindepth 1 -maxdepth 1 -type d -not -name 'PNDManager' -exec rm -r {} \;
+}
+
+pnd_post_package() {
+  # not installed as executable in CMakeLists.txt
+  chmod +x "$pkgdir/run.sh"
+
+  # copy libraries makepnd can't detect as Pandora default distro has similar named libs
+  # but they are in fact too old versions
+  install -d "$pkgdir/lib"
+  install -m755 /usr/local/lib/libstdc++.so.6 "$pkgdir/lib/" # HACK: dchrt contains newer binutils and gcc in /usr/local/
+  install -m755 /usr/lib/libQt{Core,Gui,Network,Script,Sql,Svg}.so.4 "$pkgdir/lib/"
+}
+
+pnd_application_information() {
+  pndauthor='B-ZaR'
+  pndcategory=('Settings/PackageManager')
+}
+
+md5sums=('SKIP')
+
+# vim: set ts=8 sw=2 tw=0 ft=sh syn=sh :

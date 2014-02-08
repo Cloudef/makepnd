@@ -1,0 +1,70 @@
+# Maintainer: Jari Vetoniemi <mailRoxas@gmail.com>
+
+pkgname=milkyhelper
+pkgver=3.0.6
+pkgrel=6
+pkgtitle="Milkyhelper - Package Manager"
+pkgdesc="Package manager for PND repositories"
+license=('WTFPL')
+url="http://github.com/Cloudef/libpndman"
+depends=('curl' 'openssl' 'libexpat1' 'bzip2') # jansson not in opkg
+source=('milky.sh' 'startup.conf'
+        'icon.png' 'milky1.png' 'milky2.png' 'milky3.png'
+        'git+git://github.com/Cloudef/libpndman.git#branch=develop')
+
+pndexec=('milky.sh')
+pndicon=('icon.png') # PND only supports single icon, maybe array for pyra format?
+pndrelease='beta'
+
+# Optional localized descriptions
+# en_US is automatically taken from pkgtitle && pkgdesc
+# these can be set in application_information_pnd() as well
+pndtitle[fi_FI]='Milkyhelper - Paketinhallitsija'
+pnddesc[fi_FI]='Paketinhallintasovellus PND varastoille'
+
+prepare() {
+  cd libpndman
+  git submodule update --init --recursive # jansson is not in opkg
+}
+
+build() {
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBPNDMAN_BUILD_STATIC=ON libpndman
+  make
+}
+
+package() {
+  make DESTDIR="$pkgdir" install
+}
+
+# run after package() only for PNDs
+# for split packages the syntax is post_package_<pkgname>_pnd()
+pnd_post_package() {
+  install -m755  "$srcdir/milky.sh" "$pkgdir/"
+  install -m644  "$srcdir/startup.conf" "$pkgdir/"
+  install -m644  "$srcdir/milky"{1,2,3}".png" "$pkgdir/"
+  install -m644  "$srcdir/icon.png" "$pkgdir/"
+}
+
+# called for each pndexec you specified
+# argument passed is the name of exec being iterated
+pnd_application_information() {
+  # license=('licenses') # defaults to license at top
+  # url='http://some.url' # defaults to url at top
+  # pkgver=3.0.6 # default to pkgver at top
+  # pkgrel=6 # defaults to pkgrel at top
+  # pndappdata='' # defaults to pkgname
+  # pndauthor='Somebody <mail>' # defaults to $PACKAGER
+  # pndrelease='release' # defaults to pndrelease at top
+  pndscreenshot=('milky1.png' 'milky2.png' 'milky3.png')
+  pndcategory=('Settings/PackageManager')
+}
+
+md5sums=('90c73f9c56b5214d652c0e64448b8b01'
+         '6e03ccb492c9510c4a9ea3f50756244e'
+         '66c00447bc5abacd02bbfdd81a57d6c8'
+         '3a039fe54507fdf57111aa33958b4ead'
+         'e7ac3042801b8104d389fb9ce1f393e1'
+         '5749c26c777cc2e1ebfa587d75534a7a'
+         'SKIP')
+
+# vim: set ts=8 sw=2 tw=0 ft=sh syn=sh :
