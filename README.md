@@ -9,6 +9,9 @@ Scripts for building PND packages from recipes for OpenPandora handheld
     cmake -DCMAKE_INSTALL_PREFIX=/usr ..     # - run CMake, set install prefix
     make DESTDIR="$PWD/install"              # - install
 
+Default configuration is in ```/etc/makepnd.conf.default```
+Copy this to /etc/makepnd.conf and modify for your liking.
+
 ## Recipes
 
 Recipes directory contains some example PNDBUILD recipes.
