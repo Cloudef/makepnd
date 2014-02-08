@@ -8,6 +8,7 @@ pkgdesc="Package manager for PND repositories"
 license=('WTFPL')
 url="http://github.com/Cloudef/libpndman"
 depends=('curl' 'openssl' 'libexpat1' 'bzip2') # jansson not in opkg
+makedepend=('curl-dev' 'openssl-dev' 'libexpat-dev' 'bzip2-dev')
 source=('milky.sh' 'startup.conf'
         'icon.png' 'milky1.png' 'milky2.png' 'milky3.png'
         'git+git://github.com/Cloudef/libpndman.git#branch=develop')

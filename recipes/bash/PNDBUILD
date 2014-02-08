@@ -10,6 +10,7 @@ license=('GPL')
 url="http://www.gnu.org/software/bash/bash.html"
 groups=('base')
 depends=('libc6')
+makedepends=('libc6-dev')
 source=(http://ftp.gnu.org/gnu/bash/bash-$_basever.tar.gz{,.sig}
         bash-4.2-do-not-use-memcpy-on-overlapping-memory.patch)
 if [ $_patchlevel -gt 000 ]; then

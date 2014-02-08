@@ -6,8 +6,8 @@ pkgrel=4
 pkgdesc="library that can create and read several streaming archive formats"
 url="http://libarchive.org/"
 license=('BSD')
-
 depends=('libacl1' 'libattr1' 'bzip2' 'libexpat1' 'liblzo1' 'openssl' 'libz1' 'xz')
+makedepends=('libacl-dev' 'libattr-dev' 'bzip2-dev' 'libexpat-dev' 'liblzo-dev' 'openssl-dev' 'libz-dev')
 source=("http://libarchive.org/downloads/$pkgname-$pkgver.tar.gz"
         '0001-mtree-fix-line-filename-length-calculation.patch'
         https://github.com/libarchive/libarchive/commit/22531545514043e04633e1c015c7540b9de9dbe4.patch
