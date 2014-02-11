@@ -2119,8 +2119,8 @@ create_package() {
 				exit 1 # TODO: error code
 		fi
 
-		if (( ${#icon[@]} > 0 )); then
-				cat PND.squashfs PXML.xml "${icon[0]}" > "$pkg_file"
+		if (( ${#pndicon[@]} > 0 )); then
+				cat PND.squashfs PXML.xml "${pndicon[0]}" > "$pkg_file"
 		else
 				cat PND.squashfs PXML.xml > "$pkg_file"
 		fi
