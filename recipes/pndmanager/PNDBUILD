@@ -1,8 +1,8 @@
 # Maintainer: Jari Vetoniemi <mailRoxas@gmail.com>
 
-pkgname=pndmanager
-pkgver=1.0.0
-pkgrel=1
+pkgname=pndmanager-bzar
+pkgver=1.3.9
+pkgrel=2
 pkgtitle="PNDManager"
 pkgdesc="Package manager for PND repositories"
 license=('CCPL:sa')
@@ -10,7 +10,7 @@ url="https://github.com/bzar/panorama"
 depends=('qt4-dev' 'pandora-libpnd' 'gcc-linaro-4.7')
 source=('git+git://github.com/bzar/panorama.git')
 
-pndexec=('run.sh')
+pndexec=('scripts/panorama.sh')
 pndicon=('icon.png')
 
 prepare() {
@@ -44,11 +44,21 @@ pnd_post_package() {
   install -d "$pkgdir/lib"
   install -m755 /usr/local/lib/libstdc++.so.6 "$pkgdir/lib/" # HACK: dchrt contains newer binutils and gcc in /usr/local/
   install -m755 /usr/lib/libQt{Core,Gui,Network,Script,Sql,Svg}.so.4 "$pkgdir/lib/"
+  install -m644 "$srcdir/panorama/contrib/pndmanager/icon.png" "$pkgdir/"
+  install -d "$pkgdir/plugins/imageformats"
+  install -m755 /usr/lib/qt4/plugins/imageformats/libq{gif,jpeg,svg,ico,mng,tiff}.so "$pkgdir/plugins/imageformats"
+  install -d "$pkgdir/previews"
+  install -m644 "$srcdir/panorama/contrib/pndmanager/previews/preview-"{1,2,3,4,5}.png "$pkgdir/previews"
+  install -d "$pkgdir/scripts"
+  install -m755 "$srcdir/panorama/contrib/pndmanager/scripts/panorama.sh" "$pkgdir/scripts"
+
 }
 
 pnd_application_information() {
   pndauthor='B-ZaR'
+  pndappdata='pndmanager'
   pndcategory=('Settings/PackageManager')
+  pndscreenshot=('previews/preview-1.png' 'previews/preview-2.png' 'previews/preview-3.png' 'previews/preview-4.png' 'previews/preview-5.png')
 }
 
 md5sums=('SKIP')
