@@ -1,0 +1,28 @@
+# Maintainer: Teemu Erkkola <bzar@bzar.fi>
+
+pkgname=scons
+pkgver=2.3.0
+pkgrel=1
+pkgdesc="Extensible Python-based build utility"
+arch=('any')
+url="http://scons.org"
+license=('MIT')
+depends=('python-core')
+source=("http://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.gz")
+md5sums=('083ce5624d6adcbdaf2526623f456ca9')
+
+package() {
+  cd "$srcdir/$pkgname-$pkgver"
+
+    python2 setup.py install --standard-lib \
+                             --prefix=/usr \
+                             --install-data=/usr/share \
+			     --optimize=1 \
+                             --root="$pkgdir"
+  # fix for python 2.7
+  sed -i 's:^#!.*bin/env python:#!/usr/bin/env python2:' \
+  "$pkgdir"/usr/bin/*
+  install -Dm644 LICENSE.txt \
+    "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
+
