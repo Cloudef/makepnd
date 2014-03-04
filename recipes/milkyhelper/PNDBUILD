@@ -36,6 +36,8 @@ build() {
 
 package() {
   make DESTDIR="$pkgdir" install
+  # Upstream installs lots of crap right now
+  # Fix there, not here
 }
 
 # run after package() only for PNDs
