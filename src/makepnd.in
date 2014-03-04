@@ -2015,7 +2015,10 @@ out_pxml() {
 		echo '<categories>'
 		for i in "${pndcategory[@]}"; do
 			local main="${i%\/*}"
-			local sub="${i##*\/}"
+			local sub=""
+			if [[ "$i" == */* ]]; then
+				sub="${i##*\/}"
+		  fi
 			echo "<category name=\"$(sedxml "$main")\">"
 			if [[ -n "$sub" ]]; then
 				echo "<subcategory name=\"$(sedxml "$sub")\"/>"
@@ -2518,6 +2521,17 @@ check_sanity() {
 	done
 
 	if [[ "$PKGEXT" == *pnd ]]; then
+		pkgtitle=${pkgtitle-${pkgname}}
+
+		if (( ${#license[@]} <= 0)); then
+			license=('unknown')
+		fi
+
+		if (( ${#pndcategory[@]} <= 0)); then
+			warning "$(gettext "Please add a pndcategory line to your %s!")" "$BUILDSCRIPT"
+			pndcategory=('Development')
+		fi
+
 		if (( ${#pndexec[@]} <= 0)); then
 			error "$(gettext "PNDBUILD needs at least one executable.")"
 			ret=1
