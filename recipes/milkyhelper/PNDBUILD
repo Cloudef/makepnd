@@ -69,7 +69,7 @@ pnd_application_information() {
   pndscreenshot=('milky1.png' 'milky2.png' 'milky3.png')
 }
 
-md5sums=('90c73f9c56b5214d652c0e64448b8b01'
+md5sums=('80b9bc8999f5174dfef5e83b13028077'
          '6e03ccb492c9510c4a9ea3f50756244e'
          '66c00447bc5abacd02bbfdd81a57d6c8'
          '3a039fe54507fdf57111aa33958b4ead'
