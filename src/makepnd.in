@@ -1988,7 +1988,9 @@ out_pxml() {
 		backup_package_variables
 		pndtitle[en_US]=''
 		pnddesc[en_US]=''
-		run_function_safe "pnd_application_information" "$e"
+		if declare -F "pnd_application_information" > /dev/null; then
+			run_function_safe "pnd_application_information" "$e"
+		fi
 		check_sanity
     pndauthor=${pndauthor-$packager}
 		pndappdata=${pndappdata-$pkgname}
