@@ -6,6 +6,7 @@ pkgrel=2
 pkgtitle="PNDManager"
 pkgdesc="Package manager for PND repositories"
 license=('CCPL:sa')
+options=(!staticlibs)
 url="https://github.com/bzar/panorama"
 depends=('qt4-dev' 'pandora-libpnd' 'gcc-linaro-4.7')
 source=('git+git://github.com/bzar/panorama.git')
