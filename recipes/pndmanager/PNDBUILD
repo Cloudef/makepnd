@@ -10,8 +10,12 @@ url="https://github.com/bzar/panorama"
 depends=('qt4-dev' 'pandora-libpnd' 'gcc-linaro-4.7')
 source=('git+git://github.com/bzar/panorama.git')
 
+pndauthor='B-ZaR'
+pndcategory='Settings/PackageManager'
 pndexec=('scripts/panorama.sh')
 pndicon=('icon.png')
+pndscreenshot=('previews/preview-1.png' 'previews/preview-2.png' 'previews/preview-3.png' 'previews/preview-4.png' 'previews/preview-5.png')
+pndappdata='pndmanager'
 
 prepare() {
   cd panorama
@@ -52,13 +56,6 @@ pnd_post_package() {
   install -d "$pkgdir/scripts"
   install -m755 "$srcdir/panorama/contrib/pndmanager/scripts/panorama.sh" "$pkgdir/scripts"
 
-}
-
-pnd_application_information() {
-  pndauthor='B-ZaR'
-  pndappdata='pndmanager'
-  pndcategory=('Settings/PackageManager')
-  pndscreenshot=('previews/preview-1.png' 'previews/preview-2.png' 'previews/preview-3.png' 'previews/preview-4.png' 'previews/preview-5.png')
 }
 
 md5sums=('SKIP')
