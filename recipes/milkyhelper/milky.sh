@@ -1,6 +1,6 @@
 #!/bin/sh
-export PATH="/mnt/utmp/milkyhelper/usr/bin:$PATH"
-export LD_LIBRARY_PATH="/mnt/utmp/milkyhelper/usr/lib:$LD_LIBRARY_PATH"
+export PATH="/mnt/utmp/milkyhelper/bin:$PATH"
+export LD_LIBRARY_PATH="/mnt/utmp/milkyhelper/lib:$LD_LIBRARY_PATH"
 export HOME="/mnt/utmp/milkyhelper" XDG_CONFIG_HOME="$HOME"
 
 if [ -d /mnt/utmp/milkyhelper/share ];then
