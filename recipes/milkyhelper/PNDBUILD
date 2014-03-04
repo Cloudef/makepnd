@@ -7,11 +7,12 @@ pkgtitle="Milkyhelper - Package Manager"
 pkgdesc="Package manager for PND repositories"
 license=('WTFPL')
 url="http://github.com/Cloudef/libpndman"
+options=(!staticlibs)
 depends=('curl' 'openssl' 'libexpat1' 'bzip2') # jansson not in opkg
 makedepend=('curl-dev' 'openssl-dev' 'libexpat-dev' 'bzip2-dev')
 source=('milky.sh' 'startup.conf'
         'icon.png' 'milky1.png' 'milky2.png' 'milky3.png'
-        'git+git://github.com/Cloudef/libpndman.git#branch=develop')
+        'git+git://github.com/Cloudef/libpndman.git#branch=master')
 
 pndcategory='Settings/PackageManager'
 pndexec=('milky.sh')
@@ -30,19 +31,24 @@ prepare() {
 }
 
 build() {
-  cmake -DCMAKE_INSTALL_PREFIX=/usr -DLIBPNDMAN_BUILD_STATIC=ON libpndman
+  cmake -DCMAKE_INSTALL_PREFIX=/usr libpndman
+  make
+}
+
+pnd_build() {
+  cmake -DCMAKE_INSTALL_PREFIX=/ -DPANDORA=ON -DLIBPNDMAN_BUILD_STATIC=ON libpndman
   make
 }
 
 package() {
   make DESTDIR="$pkgdir" install
-  # Upstream installs lots of crap right now
-  # Fix there, not here
 }
 
 # run after package() only for PNDs
 # for split packages the syntax is post_package_<pkgname>_pnd()
 pnd_post_package() {
+  rm -r "$pkgdir/lib"     # do not install static library in pnd
+  rm -r "$pkgdir/include" # do not install headers in pnd
   install -m755  "$srcdir/milky.sh" "$pkgdir/"
   install -m644  "$srcdir/startup.conf" "$pkgdir/"
   install -m644  "$srcdir/milky"{1,2,3}".png" "$pkgdir/"
