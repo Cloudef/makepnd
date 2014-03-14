@@ -2527,6 +2527,11 @@ check_sanity() {
 			license=('unknown')
 		fi
 
+		if (( ${#pkgdesc} <= 0 )); then
+			warning "$(gettext "Please add description, it's needed by PXML")"
+			pkgdesc="no description"
+		fi
+
 		if (( ${#pndcategory[@]} <= 0)); then
 			warning "$(gettext "Please add a pndcategory line to your %s!")" "$BUILDSCRIPT"
 			pndcategory=('Development')
