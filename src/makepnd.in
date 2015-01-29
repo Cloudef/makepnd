@@ -2072,7 +2072,7 @@ out_ipk_control() {
 	echo "Section: ${groups-extras}"
 	echo "Priority: optional"
 	echo "Maintainer: $packager"
-	echo "License: ${licence[0]-none}"
+	echo "License: ${license[0]-none}"
 	echo "Architecture: ${CARCH-unknown}"
 	[[ -n "$url" ]] && echo "Source: $url"
 	[[ -n "$depends" ]] && echo "Depends: ${depends[@]}"
