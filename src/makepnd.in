@@ -399,24 +399,24 @@ extract_file() {
 		*application/x-gzip*)
 			case "$ext" in
 				gz|z|Z) cmd="gzip" ;;
-				*) continue;;
+				*) return;;
 			esac ;;
 		*application/x-bzip*)
 			case "$ext" in
 				bz2|bz) cmd="bzip2" ;;
-				*) continue;;
+				*) return;;
 			esac ;;
 		*application/x-xz*)
 			case "$ext" in
 				xz) cmd="xz" ;;
-				*) continue;;
+				*) return;;
 			esac ;;
 		*)
 			# See if bsdtar can recognize the file
 			if bsdtar -tf "$file" -q '*' &>/dev/null; then
 				cmd="bsdtar"
 			else
-				continue
+				return
 			fi ;;
 	esac
 
