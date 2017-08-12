@@ -2067,7 +2067,7 @@ out_ipk_control() {
 		local packager="Unknown Packager"
 	fi
 	echo "Package: $pkgname"
-	echo "Version: ${pkgver}-${pkgrel}"
+	echo "Version: ${pkgver}-r${pkgrel}"
 	echo "Description: ${pkgdesc-No description}"
 	echo "Section: ${groups-extras}"
 	echo "Priority: optional"
