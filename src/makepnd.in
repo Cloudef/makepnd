@@ -2080,6 +2080,34 @@ out_ipk_control() {
 	[[ -n "$provides" ]] && echo "Provides: ${provides[@]}"
 }
 
+write_control_function() {
+	if declare -f "$1" >/dev/null; then
+		cat << EOF > "$2"
+basedir="\$(dirname "\$0")"
+if [ -e "\$basedir/install" ]; then
+		cp "\$basedir/install" "\$PKG_ROOT/opkg.install.tmp"
+elif [ -e "\$basedir/$pkgname.install" ]; then
+		cp "\$basedir/$pkgname.install" "\$PKG_ROOT/opkg.install.tmp"
+fi
+trap 'rm -f "\$PKG_ROOT/opkg.install.tmp"' EXIT
+chroot "\$PKG_ROOT" /bin/bash -c 'source ./opkg.install.tmp; $1'
+EOF
+		chmod +x "$2"
+	fi
+}
+
+write_ipk_scripts() {
+	if [[ -n "$install" ]] && [[ -e "$startdir/$install" ]]; then
+		cp "$startdir/$install" install
+		(source_safe "./install"
+		write_control_function pre_install preinst
+		write_control_function post_install postinst
+		write_control_function pre_remove prerm
+		write_control_function post_remove postrm)
+	fi
+	[[ -n "$backup" ]] && printf '/%s\n' "${backup[@]}" > conffiles
+}
+
 create_package() {
 	if [[ ! -d $pkgdir ]]; then
 		error "$(gettext "Missing %s directory.")" "pkg/"
@@ -2136,10 +2164,12 @@ create_package() {
 		msg2 "$(gettext "Compressing package...")"
     bsdtar -czf data.tar.gz "${comp_files[@]}" *
 
-		mkdir CONTROL; cd_safe CONTROL
+		mkdir CONTROL
+		(cd_safe CONTROL
 		out_ipk_control > control
-		bsdtar -czf ../control.tar.gz .
-		rm control; cd_safe ..; rmdir CONTROL
+		write_ipk_scripts
+		bsdtar -czf ../control.tar.gz .)
+		rm -rf CONTROL
 
 		echo "2.0" > debian-binary
 		ar -crf "$pkg_file" debian-binary data.tar.gz control.tar.gz
