@@ -2075,9 +2075,9 @@ out_ipk_control() {
 	echo "License: ${license[0]-none}"
 	echo "Architecture: ${CARCH-unknown}"
 	[[ -n "$url" ]] && echo "Source: $url"
-	[[ -n "$depends" ]] && echo "Depends: ${depends[@]}"
-	[[ -n "$conflicts" ]] && echo "Conflicts: ${conflicts[@]}"
-	[[ -n "$provides" ]] && echo "Provides: ${provides[@]}"
+	[[ -n "$depends" ]] && (IFS=,; echo "Depends: ${depends[*]}")
+	[[ -n "$conflicts" ]] && (IFS=,; echo "Conflicts: ${conflicts[*]}")
+	[[ -n "$provides" ]] && (IFS=,; echo "Provides: ${provides[*]}")
 }
 
 write_control_function() {
