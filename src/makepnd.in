@@ -2162,7 +2162,7 @@ create_package() {
 		rm PND.squashfs
   elif [[ "$PKGEXT" == *ipk ]]; then
 		msg2 "$(gettext "Compressing package...")"
-    bsdtar -czf data.tar.gz "${comp_files[@]}" *
+		find . -not -name . -not -name data.tar.gz -printf "%P\0" | bsdtar -czf data.tar.gz --null --no-recursion -T -
 
 		mkdir CONTROL
 		(cd_safe CONTROL
