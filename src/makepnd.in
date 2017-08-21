@@ -2067,7 +2067,7 @@ out_ipk_control() {
 		local packager="Unknown Packager"
 	fi
 	echo "Package: $pkgname"
-	echo "Version: ${pkgver}-r${pkgrel}"
+	echo "Version: $(get_full_version)"
 	echo "Description: ${pkgdesc-No description}"
 	echo "Section: ${groups-extras}"
 	echo "Priority: optional"
@@ -2433,6 +2433,10 @@ check_sanity() {
 			return 1
 		fi
 	done || ret=1
+
+	if [[ "$PKGEXT" == ".ipk" ]]; then
+		pkgrel="r$pkgrel"
+	fi
 
 	awk -F'=' '$1 ~ /^[[:space:]]*epoch$/' "$BUILDFILE" |
 	while IFS='=' read -r _ i; do
