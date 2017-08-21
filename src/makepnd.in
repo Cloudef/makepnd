@@ -2434,7 +2434,7 @@ check_sanity() {
 		fi
 	done || ret=1
 
-	if [[ "$PKGEXT" == ".ipk" ]]; then
+	if [[ "$PKGEXT" == *ipk ]]; then
 		pkgrel="r$pkgrel"
 	fi
 
