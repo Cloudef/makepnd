@@ -1984,17 +1984,17 @@ out_pxml() {
 	out_pxml_descriptions
 	echo '</package>'
 	for e in "${pndexec[@]}"; do
-		local oldcd="$PWD"
 		backup_package_variables
 		pndtitle[en_US]=''
 		pnddesc[en_US]=''
 		if declare -F "pnd_application_information" > /dev/null; then
+		  local oldcd="$PWD"
 			run_function_safe "pnd_application_information" "$e"
+		  cd_safe "$oldcd"
 		fi
-		check_sanity
+		check_sanity || exit 1
     pndauthor=${pndauthor-$packager}
 		pndappdata=${pndappdata-$pkgname}
-		cd_safe "$oldcd"
 
 		echo "<application id=\"$(sedxml "$pkgname")\" appdata=\"$(sedxml "$pndappdata")\">"
 		echo "<exec command=\"$(sedxml "$e")\"/>"
