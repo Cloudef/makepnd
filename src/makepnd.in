@@ -1945,9 +1945,9 @@ sedxml() {
 out_pxml_version() {
 	local splitver=()
 	IFS='.' read -ra splitver <<<"$pkgver"
-	echo "<version major=\"$(sedxml "${splitver[0]}")\" " \
-		            "minor=\"$(sedxml "${splitver[1]}")\" " \
-								"release=\"$(sedxml "${splitver[2]}")\" " \
+	echo "<version major=\"$(sedxml "${splitver[0]:-0}")\" " \
+		            "minor=\"$(sedxml "${splitver[1]:-0}")\" " \
+								"release=\"$(sedxml "${splitver[2]:-0}")\" " \
 								"build=\"$(sedxml "$pkgrel")\" type=\"$pndrelease\"/>"
 }
 
