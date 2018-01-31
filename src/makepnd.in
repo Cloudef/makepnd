@@ -2028,6 +2028,9 @@ out_pxml() {
 			echo '</category>'
 		done
 		echo '</categories>'
+		if [[ -v pndclockspeed ]]; then
+                echo "<clockspeed frequency=\"$(sedxml "$pndclockspeed")\"/>"
+                fi
 		echo '</application>'
 
 		restore_package_variables
